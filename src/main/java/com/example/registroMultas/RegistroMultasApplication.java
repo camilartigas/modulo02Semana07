@@ -27,7 +27,7 @@ public class RegistroMultasApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		veiculoService.salvarVeiculos();
 		multaService.salvarMultas();
-		//multaService.alterarValorSegundaMultaSegundoVeiculo();
+		multaService.alterarValorSegundaMultaSegundoVeiculo();
 	}
 
 }

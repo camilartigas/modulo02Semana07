@@ -22,77 +22,48 @@ public class MultaService {
         this.veiculoRepository = veiculoRepository;
     }
 
-
     @Transactional
     public void salvarMultas() {
         Veiculo primeiroVeiculo = veiculoRepository.findById("ABC-1234").orElse(null);
         if (primeiroVeiculo != null) {
-            List<Multa> multasDoPrimeiroVeiculo = primeiroVeiculo.getMultas();
+            Multa multa1Veiculo1 = new Multa();
+            multa1Veiculo1.setMotivo("Farol apagado");
+            multa1Veiculo1.setLocal("Gothan City");
+            multa1Veiculo1.setValor(250f);
+            multa1Veiculo1.setVeiculo(primeiroVeiculo);
+            multaRepository.save(multa1Veiculo1);
 
-            if (multasDoPrimeiroVeiculo == null || multasDoPrimeiroVeiculo.isEmpty()) {
-                Multa multa1Veiculo1 = criarMulta("Gothan City", "Farol apagado", 250f, primeiroVeiculo);
-                Multa multa2Veiculo1 = criarMulta("Gothan City", "Insulfilm", 100f, primeiroVeiculo);
-
-                salvarMultaSeNaoExistir(multa1Veiculo1);
-                salvarMultaSeNaoExistir(multa2Veiculo1);
-            }
+            Multa multa2Veiculo1 = new Multa();
+            multa2Veiculo1.setMotivo("Insulfilm");
+            multa2Veiculo1.setLocal("Gothan City");
+            multa2Veiculo1.setValor(100f);
+            multa2Veiculo1.setVeiculo(primeiroVeiculo);
+            multaRepository.save(multa2Veiculo1);
         }
 
         Veiculo segundoVeiculo = veiculoRepository.findById("BCA-4321").orElse(null);
         if (segundoVeiculo != null) {
-            List<Multa> multasDoSegundoVeiculo = segundoVeiculo.getMultas();
+            Multa multa1Veiculo2 = new Multa();
+            multa1Veiculo2.setMotivo("Excesso velocidade");
+            multa1Veiculo2.setLocal("Hiper-espaço");
+            multa1Veiculo2.setValor(400f);
+            multa1Veiculo2.setVeiculo(segundoVeiculo);
+            multaRepository.save(multa1Veiculo2);
+        }
+    }
+    @Transactional
+    public void alterarValorSegundaMultaSegundoVeiculo() {
+        Veiculo segundoVeiculo = veiculoRepository.findById("BCA-4321").orElse(null);
 
-            if (multasDoSegundoVeiculo == null || multasDoSegundoVeiculo.isEmpty()) {
-                Multa multa1Veiculo2 = criarMulta("Hiper-espaço", "Excesso velocidade", 400f, segundoVeiculo);
+        if (segundoVeiculo != null && segundoVeiculo.getMultas() != null) {
+            List<Multa> multas = segundoVeiculo.getMultas();
 
-                salvarMultaSeNaoExistir(multa1Veiculo2);
+            for (Multa multa : multas) {
+                if ("Excesso velocidade".equals(multa.getMotivo())) {
+                    multa.setValor(380f);
+                    multaRepository.save(multa);
+                }
             }
         }
     }
-
-    public Multa criarMulta(String local, String motivo, Float valor, Veiculo veiculo) {
-        Multa multa = new Multa();
-        multa.setLocal(local);
-        multa.setMotivo(motivo);
-        multa.setValor(valor);
-        multa.setVeiculo(veiculo);
-        return multa;
-    }
-
-    public void salvarMultaSeNaoExistir(Multa multa) {
-        // Verifica se a multa já existe no banco com base em critérios específicos
-        Multa multaExistente = multaRepository.findByLocalAndMotivoAndValor(
-                multa.getLocal(), multa.getMotivo(), multa.getValor());
-
-        if (multaExistente == null) {
-            multaRepository.save(multa);
-        }
-    }
-
-
-
-
-    // Método para alterar o valor da multa do segundo veículo
-//    public void alterarValorSegundaMultaSegundoVeiculo() {
-//        // Buscando o segundo veículo
-//        Veiculo segundoVeiculo = veiculoRepository.findById("BCA-4321").orElse(null);
-//
-//        // Verificando se o segundo veículo existe
-//        if (segundoVeiculo != null && segundoVeiculo.getMultas() != null) {
-//            List<Multa> multas = segundoVeiculo.getMultas();
-//
-//            // Buscando a segunda multa do segundo veículo
-//            Multa segundaMulta = multas.stream()
-//                    .filter(multa -> "Insulfilm".equals(multa.getMotivo()))
-//                    .skip(1) // Pular a primeira ocorrência do motivo "Insulfilm"
-//                    .findFirst()
-//                    .orElse(null);
-//
-//            // Verificando se a segunda multa foi encontrada
-//            if (segundaMulta != null) {
-//                segundaMulta.setValor(380.0f); // Alterando o valor para 380 reais
-//                multaRepository.save(segundaMulta); // Salvando a alteração no banco de dados
-//            }
-//        }
-
 }
