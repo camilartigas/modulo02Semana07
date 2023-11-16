@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface MultaRepository extends JpaRepository<Multa, Long> {
+    Multa findByLocalAndMotivoAndValor(String local, String motivo, Float valor);
 
 }

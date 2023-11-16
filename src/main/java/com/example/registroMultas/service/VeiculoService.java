@@ -17,6 +17,7 @@ public class VeiculoService {
         this.veiculoRepository = veiculoRepository;
     }
 
+
     public void salvarVeiculos() {
         Veiculo veiculo1 = new Veiculo();
         veiculo1.setPlaca("ABC-1234");
