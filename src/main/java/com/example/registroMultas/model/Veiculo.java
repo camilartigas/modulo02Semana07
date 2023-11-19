@@ -25,6 +25,26 @@ public class Veiculo {
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL)//um veículo para muitas multas
     private List<Multa> multas; // relacionamento bi-direcional
 
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Veículo: ").append(nome).append(" - Placa: ").append(placa).append("\n");
+
+        if (multas != null && !multas.isEmpty()) {
+            sb.append("Multas:\n");
+            for (Multa multa : multas) {
+                sb.append("- Motivo: ").append(multa.getMotivo())
+                        .append(", Local: ").append(multa.getLocal())
+                        .append(", Valor: ").append(multa.getValor()).append("\n");
+            }
+        } else {
+            sb.append("Sem multas.\n");
+        }
+        return sb.toString();
+    }
+
+
     // getters e setters
 
     public String getPlaca() {

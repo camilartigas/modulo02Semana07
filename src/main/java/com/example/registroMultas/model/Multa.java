@@ -21,6 +21,13 @@ public class Multa {
     @JoinColumn(name = "placa") // nome da coluna
     private Veiculo veiculo; // relacionamento bi-direcional
 
+
+    @Override
+    public String toString() {
+        return "Multa - Motivo: " + motivo + ", Local: " + local + ", Valor: " + valor;
+    }
+
+
     // getters e setters
 
     public Integer getId() {

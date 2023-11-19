@@ -1,11 +1,14 @@
 package com.example.registroMultas;
 
+import com.example.registroMultas.model.Veiculo;
 import com.example.registroMultas.service.MultaService;
 import com.example.registroMultas.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 @SpringBootApplication
 public class RegistroMultasApplication implements CommandLineRunner {
@@ -25,10 +28,14 @@ public class RegistroMultasApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		veiculoService.salvarVeiculos();
-		multaService.salvarMultas();
-		multaService.alterarValorSegundaMultaSegundoVeiculo();
-	}
+		//veiculoService.salvarVeiculos();
+		//multaService.salvarMultas();
+		//multaService.alterarValorSegundaMultaSegundoVeiculo();
 
+		List<Veiculo> veiculosComMultas = veiculoService.buscarVeiculosComMultas();
+		for (Veiculo veiculo : veiculosComMultas) {
+			System.out.println(veiculo.toString());
+		}
+	}
 }
 

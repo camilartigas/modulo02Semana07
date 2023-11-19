@@ -1,10 +1,14 @@
 package com.example.registroMultas.service;
 
+import com.example.registroMultas.model.Multa;
 import com.example.registroMultas.model.TipoVeiculo;
 import com.example.registroMultas.model.Veiculo;
+import com.example.registroMultas.repository.MultaRepository;
 import com.example.registroMultas.repository.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -35,5 +39,19 @@ public class VeiculoService {
 
         veiculoRepository.save(veiculo1);
         veiculoRepository.save(veiculo2);
+    }
+
+    @Autowired
+    private MultaRepository multaRepository;
+
+    public List<Veiculo> buscarVeiculosComMultas() {
+        List<Veiculo> veiculos = veiculoRepository.findAll();
+
+        for (Veiculo veiculo : veiculos) {
+            List<Multa> multas = multaRepository.findByVeiculo(veiculo);
+            veiculo.setMultas(multas);
+        }
+
+        return veiculos;
     }
 }
